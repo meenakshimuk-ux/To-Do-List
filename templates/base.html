@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}TaskFlow — Modern Todo{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="app-background"></div>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 11l3 3L22 4"/>
+            <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+          </svg>
+        </div>
+        <div>
+          <h1>TaskFlow</h1>
+          <p class="brand-tagline">Organize your day, beautifully.</p>
+        </div>
+      </div>
+      <button type="button" class="theme-toggle" id="themeToggle" aria-label="Toggle dark mode">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="5"/>
+          <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+        </svg>
+      </button>
+    </header>
+
+    <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <script>
+          window.__flashMessages = {{ messages | tojson }};
+        </script>
+      {% endif %}
+    {% endwith %}
+
+    <main class="app-main">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="app-footer">
+      <span>Built with Flask</span>
+      <span class="footer-dot">·</span>
+      <span id="footerDate"></span>
+    </footer>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
